@@ -15,7 +15,7 @@ else:
 github = Github('jbcampbe', 'J3susmy1')
 
 # create dataframe
-data = pd.DataFrame(columns=['name'])
+data = pd.DataFrame(columns=['name', 'actionscript', 'c', 'c#', 'c++', 'clojure', 'coffeescript', 'css', 'go', 'haskell', 'html', 'java', 'javascript', 'lua', 'matlab', 'objectivec', 'perl', 'php', 'python', 'r', 'ruby', 'scala', 'shell', 'swift', 'tex', 'vim'])
 
 # Then play with your Github objects:
 for user in github.get_users():
