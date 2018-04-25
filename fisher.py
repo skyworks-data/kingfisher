@@ -1,3 +1,10 @@
+''' fisher.py
+    Retrieves data and produces .csv of non-normalized user vectors.
+    .csv is preserved at each user iteration for redundancy.
+    Actual username and password must be provided on line 22 to retrieve data.
+    Script will stop when API limit is reached, and is only for data collection purposes
+'''
+
 from github import Github
 import ssl
 import pandas as pd
