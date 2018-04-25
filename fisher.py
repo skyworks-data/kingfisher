@@ -27,6 +27,6 @@ for user in g.get_users():
 
     print(userRecord)
     data.loc[len(data)] = (userRecord)
-    data.to_csv('/Users/Amos/Desktop/temp_github.csv')
+    data.to_csv('github.csv')
 
-data.to_csv = ('/Users/Amos/Desktop/github.csv')
+data.to_csv = ('github.csv')
