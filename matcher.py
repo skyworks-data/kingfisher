@@ -34,6 +34,7 @@ users = pd.read_csv('github_final.csv', header=None, usecols=[1], skiprows=1)
 username = input("Enter your github username: ")
 
 # Create user vector of the new user
+# ENTER USERNAME, PASSWORD
 g = Github("jbcampbe", "J3susmy1")
 
 user_vector = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])

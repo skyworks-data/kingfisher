@@ -8,6 +8,8 @@
 from github import Github
 import ssl
 import pandas as pd
+import time
+import csv
 
 try:
     _create_unverified_https_context = ssl._create_unverified_context
@@ -19,21 +21,39 @@ else:
     ssl._create_default_https_context = _create_unverified_https_context
 
 # using username and password
-g = Github('jbcampbe', 'J3susmy1')
+# ENTER USERNAME, PASSWORD
+username = input("enter your username: ")
+password = input("enter your password: ")
+
+g = Github(username, password)
 
 # create dataframe
-data = pd.DataFrame(columns=['name', 'ActionScript', 'C', 'C#', 'C++', 'Clojure', 'CoffeeScript', 'CSS', 'Go', 'Haskell', 'HTML', 'Java', 'JavaScript', 'Lua', 'Matlab', 'Objective-C', 'Perl', 'PHP', 'Python', 'R', 'Ruby', 'Scala', 'Shell', 'Swift', 'TeX', 'Vim script'])
+header = pd.DataFrame(columns=['', 'name', 'ActionScript', 'C', 'C#', 'C++', 'Clojure', 'CoffeeScript', 'CSS', 'Go', 'Haskell', 'HTML', 'Java', 'JavaScript', 'Lua', 'Matlab', 'Objective-C', 'Perl', 'PHP', 'Python', 'R', 'Ruby', 'Scala', 'Shell', 'Swift', 'TeX', 'Vim script'])
+
+with open('github.csv','a') as out:
+    writer=csv.writer(out)
+    writer.writerow((header))
 
 # Then play with your Github objects:
+x = 0
 for user in g.get_users():
-    userRecord = [user.login, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    # do not proceed if less than 50 API calls remaining
+    while (g.get_user(username).raw_headers['x-ratelimit-remaining'] < 50):
+        time.sleep(1)
+
+    userRecord = [x, user.login, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     for repo in user.get_repos():
         for i in range(1, 26):
-            if repo.language == data.columns[i]:
-                userRecord[i] += 1
+            if repo.language == header.columns[i]:
+                userRecord[i+1] += 1
+
+
 
     print(userRecord)
-    data.loc[len(data)] = (userRecord)
-    data.to_csv('github.csv')
 
-data.to_csv = ('github.csv')
+    with open('github.csv','a') as out:
+        writer=csv.writer(out)
+        writer.writerow((userRecord))
+
+    x += 1
+    time.sleep(2) #sleep to prevent a trigger of GitHub's rate limiters
