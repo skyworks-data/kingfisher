@@ -37,23 +37,15 @@ with open('github.csv','a') as out:
 # Then play with your Github objects:
 x = 0
 for user in g.get_users():
-    # do not proceed if less than 50 API calls remaining
-    while (g.get_user(username).raw_headers['x-ratelimit-remaining'] < 50):
-        time.sleep(1)
-
     userRecord = [x, user.login, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     for repo in user.get_repos():
         for i in range(1, 26):
             if repo.language == header.columns[i]:
                 userRecord[i+1] += 1
 
-
-
-    print(userRecord)
-
     with open('github.csv','a') as out:
         writer=csv.writer(out)
         writer.writerow((userRecord))
 
     x += 1
-    time.sleep(2) #sleep to prevent a trigger of GitHub's rate limiters
+    time.sleep(3)

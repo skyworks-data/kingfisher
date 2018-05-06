@@ -22,29 +22,30 @@ else:
     ssl._create_default_https_context = _create_unverified_https_context
 
 # Import dataset of users with un-normalized row vectors
-data = pd.read_csv('github_final.csv', header=None, usecols=range(2,27), skiprows=1)
+data = pd.read_csv('github.csv', header=None, usecols=range(2,27), skiprows=1)
 
 # Normalize user rows by max
 data = data.apply(lambda x: x/x.max(), axis=1)
 
 # Create single column dataframe of usernames
-users = pd.read_csv('github_final.csv', header=None, usecols=[1], skiprows=1)
+users = pd.read_csv('github.csv', header=None, usecols=[1], skiprows=1)
 
 # Collect username to match
 username = input("Enter your github username: ")
+password = input("Enter your github password: ")
 
 # Create user vector of the new user
 # ENTER USERNAME, PASSWORD
-g = Github("jbcampbe", "J3susmy1")
+g = Github(username, password)
 
 user_vector = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 languages = ['ActionScript', 'C', 'C#', 'C++', 'Clojure', 'CoffeeScript', 'CSS', 'Go', 'Haskell', 'HTML', 'Java', 'JavaScript', 'Lua', 'Matlab', 'Objective-C', 'Perl', 'PHP', 'Python', 'R', 'Ruby', 'Scala', 'Shell', 'Swift', 'TeX', 'Vim script']
 
-user = g.search_users(username)[0]
+user = g.get_user()
 for repo in user.get_repos():
     for i in range(0, 25):
         if repo.language == languages[i]:
-            user_vector[i] += 1
+            user_vector[i+1] += 1
 
 # normalize user vector to match
 norm_user_vector = user_vector / max(user_vector)
